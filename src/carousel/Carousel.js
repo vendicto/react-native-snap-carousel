@@ -191,26 +191,49 @@ export default class Carousel extends Component {
             }
         };
 
-        this._mounted = true;
-        this._initPositionsAndInterpolators();
+//         this._mounted = true;
+//         this._initPositionsAndInterpolators();
 
-        // Without 'requestAnimationFrame' or a `0` timeout, images will randomly not be rendered on Android...
-        requestAnimationFrame(() => {
-            if (!this._mounted) {
-                return;
-            }
+//         // Without 'requestAnimationFrame' or a `0` timeout, images will randomly not be rendered on Android...
+//         requestAnimationFrame(() => {
+//             if (!this._mounted) {
+//                 return;
+//             }
 
-            this._snapToItem(_firstItem, false, false, true, false);
-            this._hackActiveSlideAnimation(_firstItem, 'start', true);
+//             this._snapToItem(_firstItem, false, false, true, false);
+//             this._hackActiveSlideAnimation(_firstItem, 'start', true);
 
-            if (apparitionDelay) {
-                this._apparitionTimeout = setTimeout(() => {
+//             if (apparitionDelay) {
+//                 this._apparitionTimeout = setTimeout(() => {
+//                     apparitionCallback();
+//                 }, apparitionDelay);
+//             } else {
+//                 apparitionCallback();
+//             }
+//         });
+        
+        setTimeout(() => {
+            this._mounted = true;
+            this._initPositionsAndInterpolators();
+
+            // Without 'requestAnimationFrame' or a `0` timeout, images will randomly not be rendered on Android...
+            requestAnimationFrame(() => {
+                if (!this._mounted) {
+                    return;
+                }
+                // console.log('_firstItem ', _firstItem)
+                this._snapToItem(_firstItem, false, false, true, false);
+                this._hackActiveSlideAnimation(_firstItem, 'start', true);
+
+                if (apparitionDelay) {
+                    this._apparitionTimeout = setTimeout(() => {
+                        apparitionCallback();
+                    }, apparitionDelay);
+                } else {
                     apparitionCallback();
-                }, apparitionDelay);
-            } else {
-                apparitionCallback();
-            }
-        });
+                }
+            });
+        }, 750)
     }
 
     shouldComponentUpdate (nextProps, nextState) {
